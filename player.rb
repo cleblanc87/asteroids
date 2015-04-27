@@ -3,14 +3,15 @@ require_relative 'aabb'
 require_relative 'game_object'
 
 class Player < GameObject
-  attr_reader :posX
-  attr_reader :posY
-
+  attr_reader :posX, :posY, :projectiles
+  attr_accessor :health
+  
   def initialize window
     super(window)
     load_assets window
     @projectiles = []
     @shot_delay = 0
+    @health = 100
 
   end
 
@@ -28,22 +29,6 @@ class Player < GameObject
       @shot_delay -= 1
     end
 
-    #collission detection
-    detect_collissions
-  end
-
-  def detect_collissions
-    #projectiles over asteroids
-    #asteroids over player
-#     if (rect1.x < rect2.x + rect2.width &&
-#    rect1.x + rect1.width > rect2.x &&
-#    rect1.y < rect2.y + rect2.height &&
-#    rect1.height + rect1.y > rect2.y) {
-#     // collision detected!
-# }
-    @projectiles.each do |p|
-      #if p.aabb.x1 
-    end
   end
 
 
@@ -84,7 +69,7 @@ class Player < GameObject
   def shoot_projectile window
     return false if @shot_delay > 0 
     @projectiles.push Projectile.new window, @posX, @posY, @rotation
-    @shot_delay = 0
+    @shot_delay = 10
   end
 
   def check_bounds window

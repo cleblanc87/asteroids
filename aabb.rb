@@ -1,4 +1,5 @@
 class AABB
+  attr_reader :x1, :x2, :x3, :x4, :y1, :y2, :y3, :y4, :height, :width
   def update posX, posY, width, height
     halfWidth = width / 2
     halfHeight = height / 2
@@ -14,6 +15,9 @@ class AABB
 
     @x4 = posX - halfWidth
     @y4 = posY + halfHeight
+
+    @width = width
+    @height = height
   end
 
   def draw window

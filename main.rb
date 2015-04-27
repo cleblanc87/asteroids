@@ -34,6 +34,9 @@ class MyWindow < Gosu::Window
     update_asteroids self
 
     @player.update self
+
+    #collission detection
+    detect_collissions
   end
 
   def draw
@@ -56,12 +59,32 @@ class MyWindow < Gosu::Window
     @cursor.draw self.mouse_x, self.mouse_y, 0
 
    
-    self.caption = "Hello World! #{degrees} #{cp}"
+    self.caption = "Hello World! #{@player.health}"
   end
 
   def update_asteroids window
     @asteroids.each{|a|a.update window}
   end
+
+  def detect_collissions
+    @player.projectiles.each do |p|
+      @asteroids.each do |a|
+        if aabb_colide p, a
+          @player.health -= 1
+          @player.projectiles.delete p
+          @asteroids.delete a
+        end
+      end
+    end
+  end
+
+  def aabb_colide rect1, rect2
+    (rect1.aabb.x1 < rect2.aabb.x1 + rect2.aabb.width &&
+          rect1.aabb.x1 + rect1.aabb.width > rect2.aabb.x1 &&
+          rect1.aabb.y1 < rect2.aabb.y1 + rect2.aabb.height &&
+          rect1.aabb.height + rect1.aabb.y1 > rect2.aabb.y1)
+  end
+
 end
 
 window = MyWindow.new

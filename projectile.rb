@@ -10,7 +10,7 @@ class Projectile < GameObject
     vx = 0
     vy = -1
     @rotation = rotation
-    @life = 10000
+    @life = 100
 
     #theta = deg2rad(angle);
     theta = rotation * Math::PI / 180
